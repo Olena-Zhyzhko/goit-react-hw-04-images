@@ -14,8 +14,8 @@ export default class Searchbar extends Component {
 
         handleSubmit = (e) => {
         e.preventDefault();
-        const { searchImage } = this.state;
-        this.props.onSubmit({ searchImage });
+        // const { searchImage } = this.state;
+        this.props.onSubmit(this.state.searchImage);
         this.setState({
             searchImage: '',
         })
