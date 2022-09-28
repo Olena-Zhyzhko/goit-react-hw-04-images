@@ -6,15 +6,19 @@ export default class Searchbar extends Component {
     }
 
     handleChange = (e) => {
-        const { name, value } = e.target;
-        this.setState({
-            [name]: value
+        // const { name, value } = e.target;
+        this.setState({ 
+            searchImage: e.currentTarget.value.toLowerCase()
         })
     }
 
-        handleSubmit = (e) => {
+    handleSubmit = (e) => {
         e.preventDefault();
         // const { searchImage } = this.state;
+        if (this.state.searchImage.trim() === '') {
+            return;
+        }
+
         this.props.onSubmit(this.state.searchImage);
         this.setState({
             searchImage: '',
@@ -37,7 +41,7 @@ export default class Searchbar extends Component {
                 autoFocus
                 placeholder="Search images and photos"
                 name='searchImage'
-                // value={this.state}
+                value={this.state.searchImage}
                 onChange={this.handleChange}
                 />
             </form>

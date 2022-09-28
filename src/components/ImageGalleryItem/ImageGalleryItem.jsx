@@ -1,17 +1,15 @@
 import React from 'react'
 
 export default function ImageGalleryItem({ images }) {
+    console.log(images);
     return (
         <>
             {images.map(({ id, webformatURL, largeImageURL }) => (
                 <li key={id} className="gallery-item">
                     <img src={webformatURL} alt="" />
-            </li>
-        ))
-        }
-    </>
-        
-        
+                </li>
+            ))}
+        </>
     )
 }
 
