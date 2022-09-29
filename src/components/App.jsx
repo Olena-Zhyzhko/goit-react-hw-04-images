@@ -58,10 +58,8 @@ export class App extends Component {
 
     return (
       <div>
-        {/* <Loader></Loader> */}
         <Searchbar onSubmit={this.hangleFormSubmit} />
-        <ImageGallery searchImage={this.state.searchImage}></ImageGallery>
-        {/* <Button></Button> */}
+        <ImageGallery searchImage={this.state.searchImage} />
       </div>
     );
   }

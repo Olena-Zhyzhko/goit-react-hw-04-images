@@ -1,6 +1,7 @@
 // import React from 'react'
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem'
 import { fetchImages } from 'components/fetchImages'
+import Button from 'components/Button/Button'
 
 import { Component } from 'react'
 
@@ -39,6 +40,17 @@ export default class ImageGallery extends Component {
         }
     }
     
+    changeCurrentPage = () => {
+        console.log('изменим пейдж');
+
+        this.setState((prevState) => {
+             console.log(prevState.currentPage);
+
+            return {
+                currentPage: prevState.currentPage + 1,
+            }
+        });
+    }
 
   render() {
       return (
@@ -47,7 +59,7 @@ export default class ImageGallery extends Component {
                 <ul className="gallery">
                    <ImageGalleryItem images={this.state.images} />
               </ul>
-              {/* {this.state.images.length && <Button>Load more</Button> } */}
+              {this.state.images.length > 0 && <Button onClick={this.changeCurrentPage} /> }
             </>
         )
     }
