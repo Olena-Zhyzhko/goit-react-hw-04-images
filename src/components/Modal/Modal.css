@@ -12,6 +12,11 @@
 }
 
 .Modal {
-    max-width: calc(100vw - 48px);
-    max-height: calc(100vh - 24px);
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    display: block;
+    height: auto;
 }

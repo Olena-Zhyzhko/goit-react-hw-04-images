@@ -38,7 +38,7 @@ export default class Modal extends Component {
 
 Modal.propTypes = {
     modalContent: PropTypes.exact({ 
-        largeImage: PropTypes.string.isRequired, 
+        largeImageURL: PropTypes.string.isRequired, 
         tags: PropTypes.string.isRequired, 
         } ),
     onClose: PropTypes.func.isRequired,
