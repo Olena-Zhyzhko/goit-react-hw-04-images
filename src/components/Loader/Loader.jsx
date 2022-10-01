@@ -4,7 +4,7 @@ import { ColorRing } from  'react-loader-spinner'
 export default function Loader() {
   return (
       <div>
-          <ColorRing
+        <ColorRing
             visible={true}
             height="80"
             width="80"

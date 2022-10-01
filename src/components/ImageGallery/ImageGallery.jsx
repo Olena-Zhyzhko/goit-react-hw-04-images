@@ -89,15 +89,17 @@ export default class ImageGallery extends Component {
         })) 
     }
 
-  render() {
+    render() {
+        const { modalOpen, modalContent, loading, images } = this.state;
+        const { closeModal, openModal, changeCurrentPage } = this;
       return (
           <>
-              {this.state.modalOpen && <Modal modalContent={this.state.modalContent} onClose={this.closeModal} />}
-              {this.state.loading && <Loader>Загружаем</Loader>}
+              {modalOpen && <Modal modalContent={modalContent} onClose={closeModal} />}
+              {loading && <Loader>Загружаем</Loader>}
                 <ul className="ImageGallery">
-                  <ImageGalleryItem images={this.state.images} onClick={this.openModal} />
+                  <ImageGalleryItem images={images} onClick={openModal} />
               </ul>
-              {this.state.images.length > 0 && <Button onClick={this.changeCurrentPage} /> }
+              {images.length > 0 && <Button onClick={changeCurrentPage} /> }
             </>
         )
     }
