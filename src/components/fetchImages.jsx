@@ -8,7 +8,6 @@ const PER_PAGE = 12;
 
 const fetchImages = async (currentPage, searchWord) => {
     const responce = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${searchWord}&${FILTERS}&per_page=${PER_PAGE}&page=${currentPage}`);
-    console.log(responce.data);
     return responce.data;
 }
 

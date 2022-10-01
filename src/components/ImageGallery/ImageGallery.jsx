@@ -1,9 +1,12 @@
-// import React from 'react'
+import { Component } from 'react'
+import './ImageGallery.css';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem'
 import { fetchImages } from 'components/fetchImages'
 import Button from 'components/Button/Button'
+import Loader from 'components/Loader/Loader'
+import Modal from 'components/Modal/Modal'
+import PropTypes from 'prop-types';
 
-import { Component } from 'react'
 
 export default class ImageGallery extends Component {
     state = {
@@ -11,23 +14,24 @@ export default class ImageGallery extends Component {
         loading: false,
         currentPage: 1,
         error: null,
+        modalOpen: false,
+        modalContent: {
+            largeImage: "",
+            tags: "",
+        }
     }
 
-    async componentDidUpdate(prevPros) {
-        if (this.props.searchImage !== prevPros.searchImage) {
-            const { searchImage } = this.props;
-            const { currentPage } = this.state;
-
+    async fetchImagesResult(currentPage, searchImage) {
             this.setState({ loading: true })
 
             try {
                 const responseData = await fetchImages(currentPage, searchImage);
-                console.log(responseData.hits);
+
+                const imageInfo = responseData.hits.map(({ id, webformatURL, largeImageURL, tags }) => ({id, webformatURL, largeImageURL, tags,}))
 
                 this.setState((prevState) => {
-                    console.log(prevState.images);
                     return {
-                        images: [...prevState.images, ...responseData.hits]
+                        images: [...prevState.images, ...imageInfo]
                     }
                 });
             }
@@ -37,12 +41,28 @@ export default class ImageGallery extends Component {
             finally {
                this.setState({ loading: false }) 
             }
+
+    }
+    
+    componentDidUpdate(prevProps, prevState) {
+        const { searchImage } = this.props;
+        const { currentPage } = this.state;
+        
+        if (searchImage !== prevProps.searchImage) {
+            this.setState({
+                images: [],
+                currentPage: 1,
+            })
+            this.fetchImagesResult(1, searchImage);
+        }
+
+        if (currentPage !== prevState.currentPage &&
+            currentPage !== 1) {
+            this.fetchImagesResult(currentPage, searchImage);
         }
     }
     
     changeCurrentPage = () => {
-        console.log('изменим пейдж');
-
         this.setState((prevState) => {
              console.log(prevState.currentPage);
 
@@ -52,12 +72,30 @@ export default class ImageGallery extends Component {
         });
     }
 
+    openModal = (modalContent) => {
+        return (this.setState({
+            modalOpen: true,
+            modalContent,
+        }))
+}
+
+    closeModal = () => {
+        return (this.setState({
+            modalOpen: false,
+            modalContent: {
+                largeImage: '',
+                tags: '',
+            }
+        })) 
+    }
+
   render() {
       return (
-            <>
-              {/* {this.state.loading && <Loader>Загружаем</Loader>} */}
-                <ul className="gallery">
-                   <ImageGalleryItem images={this.state.images} />
+          <>
+              {this.state.modalOpen && <Modal modalContent={this.state.modalContent} onClose={this.closeModal} />}
+              {this.state.loading && <Loader>Загружаем</Loader>}
+                <ul className="ImageGallery">
+                  <ImageGalleryItem images={this.state.images} onClick={this.openModal} />
               </ul>
               {this.state.images.length > 0 && <Button onClick={this.changeCurrentPage} /> }
             </>
@@ -65,5 +103,6 @@ export default class ImageGallery extends Component {
     }
 }
 
-{/* <Loader></Loader> */ }
-{/* <Button></Button> */}
+ImageGallery.propTypes = {
+        searchImage: PropTypes.string.isRequired, 
+}
