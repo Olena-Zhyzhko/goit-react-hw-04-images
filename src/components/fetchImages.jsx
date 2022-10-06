@@ -11,4 +11,4 @@ const fetchImages = async (currentPage, searchWord) => {
     return responce.data;
 }
 
-export { fetchImages };
+export { fetchImages, PER_PAGE };

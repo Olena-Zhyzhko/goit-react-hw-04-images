@@ -2,9 +2,13 @@ import { useState } from 'react'
 import './Searchbar.css'
 import PropTypes from 'prop-types';
 import { FcSearch } from 'react-icons/fc'
+import { toast } from 'react-toastify';
+
 
 export default function Searchbar({ onSubmit }) {
     const [searchImage, setsearchImage] = useState('');
+
+    // const notify = () => toast("Enter search word, please.");
 
     const handleChange = (e) => {
         setsearchImage(e.currentTarget.value.toLowerCase())
@@ -13,7 +17,7 @@ export default function Searchbar({ onSubmit }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (searchImage.trim() === '') {
-            return;
+            return toast("Enter search word, please.");
         }
 
         onSubmit(searchImage);

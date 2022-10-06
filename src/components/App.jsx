@@ -2,6 +2,8 @@ import { useState } from "react";
 import './App.css';
 import ImageGallery from 'components/ImageGallery/ImageGallery'
 import Searchbar from 'components/Searchbar/Searchbar'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css' ;
 
 export function App() {
   const [searchImage, setSearchImage] = useState('');
@@ -13,7 +15,8 @@ export function App() {
   return (
       <div>
         <Searchbar onSubmit={hangleFormSubmit} />
-        <ImageGallery  searchImage={searchImage} />
+      <ImageGallery searchImage={searchImage} />
+      <ToastContainer />
       </div>
   )
 }

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import './ImageGallery.css';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem'
-import { fetchImages } from 'components/fetchImages'
+import { fetchImages, PER_PAGE } from 'components/fetchImages'
 import Button from 'components/Button/Button'
 import Loader from 'components/Loader/Loader'
 import Modal from 'components/Modal/Modal'
 import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
 
 
 export default function ImageGallery({ searchImage }) {
@@ -16,13 +17,13 @@ export default function ImageGallery({ searchImage }) {
     const [modalOpen, setModalOpen] = useState(false);
     const [largeImage, setLargeImage] = useState('');
     const [tags, setTags] = useState('');
+    
 
     async function fetchImagesResult(currentPage, searchImage) {
         setLoading(true);
             try {
                 const responseData = await fetchImages(currentPage, searchImage);
-                const imageInfo = responseData.hits.map(({ id, webformatURL, largeImageURL, tags }) => ({id, webformatURL, largeImageURL, tags,}))
-                setImages(prevState => [...prevState, ...imageInfo]);
+                handleResult(responseData);
             }
             catch (error) {
                 setError(error);
@@ -32,6 +33,28 @@ export default function ImageGallery({ searchImage }) {
             }
     };
 
+function handleResult(responseData) {
+        const searchResult = responseData.hits;
+        const totalResults = responseData.totalHits;
+        const maxPage = Math.ceil(totalResults / PER_PAGE);
+
+        if (searchResult.length === 0) {
+            return toast.error("Sorry, there are no images matching your search query. Please try again.");
+        } else {
+            if (currentPage === 1) {
+                toast.success(`Hooray! We found ${totalResults} images.`);
+            }
+
+            const imageInfo = responseData.hits.map(({ id, webformatURL, largeImageURL, tags }) => ({id, webformatURL, largeImageURL, tags,}))
+            setImages(prevState => [...prevState, ...imageInfo]);
+
+        }
+    
+        if (maxPage === currentPage) {
+           toast.warn("We're sorry, but you've reached the end of search results.");
+        }
+}
+
     useEffect(() => {
         if (searchImage === '') {
             return
@@ -39,12 +62,14 @@ export default function ImageGallery({ searchImage }) {
         setImages([]);
         setCurrentPage(1);
         fetchImagesResult(1, searchImage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchImage]);
 
     useEffect(() => {
         if (currentPage !== 1 && searchImage !== '') {
             fetchImagesResult(currentPage, searchImage);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentPage, searchImage]);
     
     const changeCurrentPage = () => {
