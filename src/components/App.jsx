@@ -1,23 +1,39 @@
-import { Component } from "react";
+import { useState } from "react";
 import './App.css';
 import ImageGallery from 'components/ImageGallery/ImageGallery'
 import Searchbar from 'components/Searchbar/Searchbar'
 
-export class App extends Component {
-  state = {
-    searchImage: '',
-  };
+export function App() {
+  const [searchImage, setSearchImage] = useState('');
 
-  hangleFormSubmit = (searchImage) => {
-    this.setState({ searchImage })
+  const hangleFormSubmit = (searchImage) => {
+    setSearchImage(searchImage);
   }
 
-  render() {
-    return (
+  return (
       <div>
-        <Searchbar onSubmit={this.hangleFormSubmit} />
-        <ImageGallery  searchImage={this.state.searchImage} />
+        <Searchbar onSubmit={hangleFormSubmit} />
+        <ImageGallery  searchImage={searchImage} />
       </div>
-    );
-  }
-};
+  )
+}
+
+
+// export class App extends Component {
+//   state = {
+//     searchImage: '',
+//   };
+
+//   hangleFormSubmit = (searchImage) => {
+//     this.setState({ searchImage })
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         <Searchbar onSubmit={this.hangleFormSubmit} />
+//         <ImageGallery  searchImage={this.state.searchImage} />
+//       </div>
+//     );
+//   }
+// };
