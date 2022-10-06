@@ -13,7 +13,7 @@ export default function Modal({ largeImage, tags, onClose}) {
         return () => {
         document.removeEventListener('keydown', closeModal)
         };
-    }, []);
+    }, );
 
     function closeModal({ target, currentTarget, code }) {
         if (target === currentTarget || code === 'Escape') {

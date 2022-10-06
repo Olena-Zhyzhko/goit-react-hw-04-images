@@ -64,7 +64,8 @@ export default function ImageGallery({ searchImage }) {
     }
 
   return (
-            <>
+      <>
+             {error && <p>{error.massage}</p>}
               {modalOpen && <Modal largeImage={largeImage} tags={tags} onClose={closeModal} />}
               {loading && <Loader>Загружаем</Loader>}
                 <ul className="ImageGallery">
