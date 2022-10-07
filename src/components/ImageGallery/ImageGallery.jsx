@@ -66,11 +66,13 @@ function handleResult(responseData) {
     }, [searchImage]);
 
     useEffect(() => {
-        if (currentPage !== 1 && searchImage !== '') {
+        if (
+            currentPage !== 1 &&
+            searchImage !== '') {
             fetchImagesResult(currentPage, searchImage);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentPage, searchImage]);
+    }, [currentPage]);
     
     const changeCurrentPage = () => {
         setCurrentPage(prevState => prevState + 1);
